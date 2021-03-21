@@ -1,0 +1,28 @@
+.cell {
+    border: solid white 0.3px;
+    height: 0.5em;
+    width: 0.5em;
+    background-color: gray;
+    flex-shrink: 0;
+}
+
+.gameCellsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 90vh;
+}
+
+.dead {
+    background-color: black;
+}
+
+.alive {
+    background-color: greenyellow;
+}
+
+.row {
+    display: flex;
+}
