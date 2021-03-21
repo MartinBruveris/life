@@ -1,18 +1,9 @@
 .cell {
-    border: solid white 0.3px;
+    border: solid rgb(115 109 109 / 50%) 0.3px;
     height: 0.5em;
     width: 0.5em;
     background-color: gray;
     flex-shrink: 0;
-}
-
-.gameCellsContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    min-height: 90vh;
 }
 
 .dead {
@@ -20,7 +11,9 @@
 }
 
 .alive {
-    background-color: greenyellow;
+    box-shadow: #3cf709 0px 0px 16px 2px;
+    background-color: #3cf709;
+    position: relative;
 }
 
 .row {

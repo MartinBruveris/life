@@ -1,4 +1,22 @@
-.rowContainer {
-    display: table;
-    margin: 0 auto;
+body {
+    font-family: monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #878683;
+}
+
+.generationCounter {
+    float: right;
+}
+
+main {
+    min-height: 80vh;
+    margin-top: 2%;
+}
+
+p {
+    text-align: center;
+    margin: 0.5em;
+    padding: 0;
 }

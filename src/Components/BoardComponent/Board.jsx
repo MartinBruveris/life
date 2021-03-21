@@ -1,3 +1,10 @@
+/*
+ * @Author: Martin Bruveris 
+ * @Date: 2021-03-21 23:37:27 
+ * @Last Modified by:   Martin Bruveris 
+ * @Last Modified time: 2021-03-21 23:37:27 
+ */
+
 import { React, useState, useEffect } from 'react';
 import cloneDeep from 'lodash.clonedeep';
 import './boardStyle.css';
@@ -20,18 +27,27 @@ export default function Board(){
         [1, 1]
     ];
 
-    const [gameGridState, setGameGridState] = useState(
-        Array.from(Array(gameBoardRowCount), () => {
+    const generateEmptyBoard = () => {
+        return Array.from(Array(gameBoardRowCount), () => {
             return new Array(cellCountPerRow).fill(false)
-        })
-    );
+        });
+    };
+
+    const [gameGridState, setGameGridState] = useState(generateEmptyBoard());
+    const [generationCount, setGenerationCount] = useState(0);
 
     const updateGameGridState = (gridState) => {
         setGameGridState(gridState);
     };
 
     const startGame = () => {
-        setGameStarted(!gameStarted);
+        setGameStarted(gameStarted => !gameStarted);
+    };
+
+    const resetGame = () => {
+        setGameStarted(false);
+        setGenerationCount(0);
+        setGameGridState(generateEmptyBoard());
     };
 
     useEffect(()=>{
@@ -66,18 +82,31 @@ export default function Board(){
             });
         });
         setGameGridState(gridStateClone);
+        setGenerationCount(generationCount => generationCount + 1);
     };
 
     return (
         <>
-            <button 
-                onClick = {startGame}>
-                {gameStarted? 'STOP' : 'START'}
-            </button>
-            <GameCells
-                gameGridState = {gameGridState}
-                updateGameGridState = {updateGameGridState}
-            />
+            <header>
+                <p>Conways Game Of Life</p>
+                <button 
+                    onClick = {startGame}>
+                    {gameStarted? 'STOP' : 'START'}
+                </button>
+                <button 
+                    onClick = {resetGame}>
+                    RESET
+                </button>
+                <div className = 'generationCounter'>
+                    {`Generation: ${generationCount}`}
+                </div>
+            </header>
+            <main>
+                <GameCells
+                    gameGridState = {gameGridState}
+                    updateGameGridState = {updateGameGridState}
+                />
+            </main>
         </>
     );
 }

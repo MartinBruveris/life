@@ -1,3 +1,10 @@
+/*
+ * @Author: Martin Bruveris 
+ * @Date: 2021-03-21 23:37:44 
+ * @Last Modified by: Martin Bruveris
+ * @Last Modified time: 2021-03-21 23:38:21
+ */
+
 import { useEffect, useState } from 'react';
 import cloneDeep from 'lodash.clonedeep';
 import './gameCells.css';
