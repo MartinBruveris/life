@@ -1,8 +1,8 @@
 /*
  * @Author: Martin Bruveris 
  * @Date: 2021-03-21 23:37:27 
- * @Last Modified by:   Martin Bruveris 
- * @Last Modified time: 2021-03-21 23:37:27 
+ * @Last Modified by: Martin Bruveris
+ * @Last Modified time: 2021-03-22 21:45:30
  */
 
 import { React, useState, useEffect } from 'react';
@@ -14,8 +14,7 @@ export default function Board(){
 
     const gameBoardRowCount = 40;
     const cellCountPerRow = 70;
-    const [gameStarted, setGameStarted] = useState(false);
-
+    const initialSiderValue = 5;
     const neighbourCoordinates = [
         [0, -1],
         [0, 1],
@@ -33,8 +32,15 @@ export default function Board(){
         });
     };
 
+    const [gameStarted, setGameStarted] = useState(false);
+    const [speedSliderValue, setSpeedSliderValue] = useState(initialSiderValue);
     const [gameGridState, setGameGridState] = useState(generateEmptyBoard());
     const [generationCount, setGenerationCount] = useState(0);
+
+    const updateSpeedSlider = (event) => {
+        const sliderValue = event.target.value;
+        setSpeedSliderValue(sliderValue);
+    };
 
     const updateGameGridState = (gridState) => {
         setGameGridState(gridState);
@@ -47,15 +53,17 @@ export default function Board(){
     const resetGame = () => {
         setGameStarted(false);
         setGenerationCount(0);
+        setSpeedSliderValue(initialSiderValue);
         setGameGridState(generateEmptyBoard());
     };
 
     useEffect(()=>{
         let boardRefreshInterval = null;
         if(gameStarted) {
+            const speed = (11 - speedSliderValue) * 100;
             boardRefreshInterval = setInterval(()=> {
                 generateNextGeneration();
-            }, 100);
+            }, speed);
         }
         return () => clearInterval(boardRefreshInterval);
     });
@@ -97,6 +105,16 @@ export default function Board(){
                     onClick = {resetGame}>
                     RESET
                 </button>
+                <label htmlFor = 'speed'>SPEED</label>
+                <input 
+                    type = 'range'
+                    id = 'speed'
+                    name = 'speed'
+                    min = '1'
+                    max = '10'
+                    value = {speedSliderValue}
+                    onChange = {updateSpeedSlider}
+                    />
                 <div className = 'generationCounter'>
                     {`Generation: ${generationCount}`}
                 </div>
