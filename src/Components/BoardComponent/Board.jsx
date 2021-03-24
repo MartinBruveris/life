@@ -2,7 +2,7 @@
  * @Author: Martin Bruveris 
  * @Date: 2021-03-21 23:37:27 
  * @Last Modified by: Martin Bruveris
- * @Last Modified time: 2021-03-22 21:45:30
+ * @Last Modified time: 2021-03-24 00:06:33
  */
 
 import { React, useState, useEffect } from 'react';
@@ -13,7 +13,7 @@ import GameCells from '../GameCellsComponent/GameCells';
 export default function Board(){
 
     const gameBoardRowCount = 40;
-    const cellCountPerRow = 70;
+    const cellCountPerRow = 80;
     const initialSiderValue = 5;
     const neighbourCoordinates = [
         [0, -1],
@@ -60,15 +60,15 @@ export default function Board(){
     useEffect(()=>{
         let boardRefreshInterval = null;
         if(gameStarted) {
-            const speed = (11 - speedSliderValue) * 100;
-            boardRefreshInterval = setInterval(()=> {
-                generateNextGeneration();
+            const speed = (11 - speedSliderValue) * 50;
+            boardRefreshInterval = setInterval(async () => {
+                await generateNextGeneration();
             }, speed);
         }
         return () => clearInterval(boardRefreshInterval);
     });
 
-    const generateNextGeneration = () => {
+    const generateNextGeneration = async () => {
         let gridStateClone = cloneDeep(gameGridState);
         gameGridState.forEach((row, rowIndex) => {
             row.forEach((_cell, cellIndex) => {
@@ -96,27 +96,33 @@ export default function Board(){
     return (
         <>
             <header>
-                <p>Conways Game Of Life</p>
-                <button 
-                    onClick = {startGame}>
-                    {gameStarted? 'STOP' : 'START'}
-                </button>
-                <button 
-                    onClick = {resetGame}>
-                    RESET
-                </button>
-                <label htmlFor = 'speed'>SPEED</label>
-                <input 
-                    type = 'range'
-                    id = 'speed'
-                    name = 'speed'
-                    min = '1'
-                    max = '10'
-                    value = {speedSliderValue}
-                    onChange = {updateSpeedSlider}
-                    />
-                <div className = 'generationCounter'>
-                    {`Generation: ${generationCount}`}
+                <div className = 'controls'>
+                    <div>
+                        <button 
+                            onClick = {startGame}
+                            className = {gameStarted? 'activeBtn' : 'default'}>
+                            {gameStarted? 'Stop' : 'Start'}
+                        </button>
+                        <button 
+                            onClick = {resetGame}>
+                            Reset
+                        </button>
+                    </div>
+                    <div>
+                        <label htmlFor = 'speed'>Speed</label>
+                        <input 
+                            type = 'range'
+                            id = 'speed'
+                            name = 'speed'
+                            min = '1'
+                            max = '10'
+                            value = {speedSliderValue}
+                            onChange = {updateSpeedSlider}
+                            />
+                    </div>
+                    <div className = 'generationCounter'>
+                        {`Generation: ${generationCount}`}
+                    </div>
                 </div>
             </header>
             <main>
@@ -124,6 +130,7 @@ export default function Board(){
                     gameGridState = {gameGridState}
                     updateGameGridState = {updateGameGridState}
                 />
+                <p>Conways Game Of Life</p>
             </main>
         </>
     );

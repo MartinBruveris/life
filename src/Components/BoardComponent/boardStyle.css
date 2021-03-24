@@ -17,6 +17,55 @@ main {
 
 p {
     text-align: center;
-    margin: 0.5em;
-    padding: 0;
+    margin: 1.5em;
+    font-size: 1.3em;
+    font-weight: bold;
 }
+
+input[type='range'] {
+    height: 0.2em;
+}
+
+label {
+    padding-right: 0.8em;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    border: 1px solid #12A910;
+    height: 1px;
+    width: 1px;
+    background: #981717;
+  }
+
+button {
+    width: 8em;
+    font-size: 0.5em;
+    background-color: #0075ff;
+    border: solid #1c07bd 1px;
+    outline: none;
+}
+
+button:active {
+    background-color: #350ed1;
+}
+
+.activeBtn {
+    background-color: #350ed1;
+}
+
+.default {
+    background-color: #0075ff;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: smaller;
+}
+
+.controls div {
+    display: flex;
+    align-items: center;
+}
+
