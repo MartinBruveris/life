@@ -1,25 +1,17 @@
 body {
     font-family: monospace;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #878683;
-}
-
-.generationCounter {
-    float: right;
+    font-size: 100%;
+    background: radial-gradient(circle at 50% 50%, #c0ffb1, #b5f6ae, #9cdea7, #80be9a, #6a9b88, #5b7b73, #526561, #4f5c5a);
 }
 
 main {
-    min-height: 80vh;
-    margin-top: 2%;
-}
-
-p {
-    text-align: center;
-    margin: 1.5em;
-    font-size: 1.3em;
-    font-weight: bold;
+    margin-top: 5%;
+    display: grid;
+    grid-template-rows: 10% auto 10%;
+    grid-template-columns: repeat(3, minmax(170px, auto));
+    justify-items: center;
+    align-items: center;
+    grid-row-gap: 5%;
 }
 
 input[type='range'] {
@@ -30,42 +22,40 @@ label {
     padding-right: 0.8em;
 }
 
-input[type=range]::-webkit-slider-thumb {
-    border: 1px solid #12A910;
-    height: 1px;
-    width: 1px;
-    background: #981717;
-  }
+.activeBtn {
+    background-color: #dfaf13;
+}
 
 button {
-    width: 8em;
-    font-size: 0.5em;
     background-color: #0075ff;
+}
+
+#controlButtons > button {
+    width: auto;
+    font-size: 80%;
     border: solid #1c07bd 1px;
     outline: none;
 }
 
-button:active {
+#controlButtons > button:active {
     background-color: #350ed1;
 }
 
-.activeBtn {
-    background-color: #350ed1;
+.gameCellsContainer {
+    grid-row: 2;
+    grid-column: 1/4;
+    border: solid #0000002b 5px;
 }
 
-.default {
-    background-color: #0075ff;
+.gameTitle {
+    grid-row: 3;
+    grid-column: 1/4;
+    font-size: 1.8em;
+    font-weight: bold;
 }
 
-.controls {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: smaller;
-}
-
-.controls div {
-    display: flex;
-    align-items: center;
+div > p {
+    padding: 0;
+    margin: 0;
 }
 

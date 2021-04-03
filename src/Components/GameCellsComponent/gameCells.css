@@ -1,9 +1,7 @@
 .cell {
     border: solid rgb(115 109 109 / 50%) 0.3px;
-    height: 0.5em;
-    width: 0.5em;
-    background-color: gray;
-    flex-shrink: 0;
+    height: 0.8vw;
+    width: 0.8vw;
 }
 
 .dead {
@@ -18,4 +16,5 @@
 
 .row {
     display: flex;
+    flex-wrap: nowrap;
 }

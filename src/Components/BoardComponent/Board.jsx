@@ -2,35 +2,43 @@
  * @Author: Martin Bruveris 
  * @Date: 2021-03-21 23:37:27 
  * @Last Modified by: Martin Bruveris
- * @Last Modified time: 2021-03-24 00:06:33
+ * @Last Modified time: 2021-04-03 23:17:51
  */
 
-import { React, useState, useEffect } from 'react';
-import cloneDeep from 'lodash.clonedeep';
+import {
+    React,
+    useState,
+    useEffect,
+    useCallback,
+    useMemo
+} from 'react';
 import './boardStyle.css';
+import cloneDeep from 'lodash.clonedeep';
 import GameCells from '../GameCellsComponent/GameCells';
 
 export default function Board(){
 
-    const gameBoardRowCount = 40;
-    const cellCountPerRow = 80;
+    const gameBoardRowCount = 33;
+    const cellCountPerRow = 85;
     const initialSiderValue = 5;
-    const neighbourCoordinates = [
-        [0, -1],
-        [0, 1],
-        [-1, -1],
-        [-1, 0],
-        [-1, 1],
-        [1, -1],
-        [1, 0],
-        [1, 1]
-    ];
+    const neighbourCoordinates = useMemo(() =>
+        [
+            [0, -1],
+            [0, 1],
+            [-1, -1],
+            [-1, 0],
+            [-1, 1],
+            [1, -1],
+            [1, 0],
+            [1, 1]
+        ],[]
+    );
 
-    const generateEmptyBoard = () => {
+    const generateEmptyBoard = useCallback(() => {
         return Array.from(Array(gameBoardRowCount), () => {
             return new Array(cellCountPerRow).fill(false)
         });
-    };
+    }, []);
 
     const [gameStarted, setGameStarted] = useState(false);
     const [speedSliderValue, setSpeedSliderValue] = useState(initialSiderValue);
@@ -62,13 +70,13 @@ export default function Board(){
         if(gameStarted) {
             const speed = (11 - speedSliderValue) * 50;
             boardRefreshInterval = setInterval(async () => {
-                await generateNextGeneration();
+                generateNextGeneration();
             }, speed);
         }
         return () => clearInterval(boardRefreshInterval);
     });
 
-    const generateNextGeneration = async () => {
+    const generateNextGeneration = useCallback(() => {
         let gridStateClone = cloneDeep(gameGridState);
         gameGridState.forEach((row, rowIndex) => {
             row.forEach((_cell, cellIndex) => {
@@ -91,46 +99,44 @@ export default function Board(){
         });
         setGameGridState(gridStateClone);
         setGenerationCount(generationCount => generationCount + 1);
-    };
+    }, [gameGridState, neighbourCoordinates]);
 
     return (
         <>
-            <header>
-                <div className = 'controls'>
-                    <div>
-                        <button 
-                            onClick = {startGame}
-                            className = {gameStarted? 'activeBtn' : 'default'}>
-                            {gameStarted? 'Stop' : 'Start'}
-                        </button>
-                        <button 
-                            onClick = {resetGame}>
-                            Reset
-                        </button>
-                    </div>
-                    <div>
-                        <label htmlFor = 'speed'>Speed</label>
-                        <input 
-                            type = 'range'
-                            id = 'speed'
-                            name = 'speed'
-                            min = '1'
-                            max = '10'
-                            value = {speedSliderValue}
-                            onChange = {updateSpeedSlider}
-                            />
-                    </div>
-                    <div className = 'generationCounter'>
-                        {`Generation: ${generationCount}`}
-                    </div>
-                </div>
-            </header>
             <main>
+                <div id = 'controlButtons'>
+                    <button 
+                        onClick = {startGame}
+                        className = {gameStarted? 'activeBtn' : 'default'}>
+                        {gameStarted? 'Stop' : 'Start'}
+                    </button>
+                    <button 
+                        onClick = {resetGame}>
+                        Reset
+                    </button>
+                </div>
+                <div id = 'controlSpeed'>
+                    <label htmlFor = 'speed'>Speed</label>
+                    <input 
+                        type = 'range'
+                        id = 'speed'
+                        name = 'speed'
+                        min = '1'
+                        max = '10'
+                        value = {speedSliderValue}
+                        onChange = {updateSpeedSlider}
+                        />
+                </div>
+                <div id = 'generationCounter'>
+                    {`Generation: ${generationCount}`}
+                </div>
                 <GameCells
                     gameGridState = {gameGridState}
                     updateGameGridState = {updateGameGridState}
                 />
-                <p>Conways Game Of Life</p>
+                <div className = 'gameTitle'>
+                    <p>Conway's Game Of Life</p>
+                </div>
             </main>
         </>
     );
