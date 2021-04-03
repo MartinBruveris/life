@@ -2,7 +2,7 @@
  * @Author: Martin Bruveris 
  * @Date: 2021-03-21 23:37:27 
  * @Last Modified by: Martin Bruveris
- * @Last Modified time: 2021-04-03 23:17:51
+ * @Last Modified time: 2021-04-04 00:09:06
  */
 
 import {
@@ -69,7 +69,7 @@ export default function Board(){
         let boardRefreshInterval = null;
         if(gameStarted) {
             const speed = (11 - speedSliderValue) * 50;
-            boardRefreshInterval = setInterval(async () => {
+            boardRefreshInterval = setInterval(() => {
                 generateNextGeneration();
             }, speed);
         }
